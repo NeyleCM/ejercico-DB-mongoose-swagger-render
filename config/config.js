@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+// require('dotenv').config(); -->cuando esta env en la raiz
+require('dotenv').config({ path: './env/.env' });
+
 
 const dbConnection = async() => {
     try {
@@ -10,7 +12,6 @@ const dbConnection = async() => {
         throw new Error('Error a la hora de iniciar la base de datos');
     }
 };
-
 module.exports = {
     dbConnection,
 };
