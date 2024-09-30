@@ -1,22 +1,24 @@
-require('dotenv').config();
 const express = require('express');
 const app = express();
+require('dotenv').config();
+const PORT = process.env.PORT || 8080;
 const { dbConnection } = require('./config/config');
 const routes = require('./routes');
-//const mongoose = require("mongoose");
 const swaggerUI = require('swagger-ui-express');
 const docs = require('./docs/index');
 
+//Middleware manejar JSON
 app.use(express.json());
-//app.use('/', routes);
 
-dbConnection();
+//Ruta principal
+app.use('/', routes);
+// app.use('/tasks', routes);
 
-app.use('/tasks', routes);
-
+// Configuración de Swagger
 app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs))
 
+//Conexión a la base de datos
+dbConnection();
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => 
-    console.log(`Server started on port ${PORT}`));
+// Configuración del puerto
+app.listen(PORT, () => console.log(`Server started on port http://localhost:${PORT}/`));
